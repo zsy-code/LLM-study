@@ -130,11 +130,11 @@ $$\mathbf{q} \cdot \mathbf{k} = \Vert\mathbf{q}\Vert \Vert\mathbf{k}\Vert \cos \
 - 这样就保证了不论 $d_k$ 如何变化，使用缩放因子 $\sqrt{d_k}$ 缩放后得到的结果总是稳定为1。
 
 *补充知识*
-- 方差的计算公式：
-$$\begin{aligned} Var(X)  & =  E[(X - E[X])^2] \\ & = E[X^2 - 2XE[X] + E[X]^ 2]\\ & = E[X^2] - 2E[X]E[X] + E[X]^2 \\ & = E[X^2] - E[X]^2 \end{aligned}$$
+- 方差的计算公式： 
+ $$ \begin{aligned} Var(X)  & =  E[(X - E[X])^2] \\ & = E[X^2 - 2XE[X] + E[X]^ 2]\\ & = E[X^2] - 2E[X]E[X] + E[X]^2 \\ & = E[X^2] - E[X]^2 \end{aligned}$$
 - 独立性的定义：两个随机变量 X 和 Y相互独立，意味着一个变量的行为不会影响另一个变量。
-- 方差的可加性：对于两个独立的随机变量 X 和 Y，我们有： $Var(X + Y) = Var(X) + Var(Y)$，证明如下：
- $$\begin{aligned} Var(X + Y) & = E[((X + Y) - E[X + Y])^2] \\ & = E[((X - E[X]) + (Y - E[Y]))^2] \\ & = E[(X - E[X])^2 + 2(X - E[X])(Y - E[Y]) + (Y - E[Y])^2]\\ & = E[(X - E[X])^2] + 2E[(X - E[X])(Y - E[Y])] + E[(Y - E[Y])^2] \\ & = Var(X) + 2Cov(X,Y) + Var(Y) \end{aligned}$$
+- 方差的可加性：对于两个独立的随机变量 X 和 Y，我们有： $Var(X + Y) = Var(X) + Var(Y)$，证明如下： 
+ $$ \begin{aligned} Var(X + Y) & = E[((X + Y) - E[X + Y])^2] \\ & = E[((X - E[X]) + (Y - E[Y]))^2] \\ & = E[(X - E[X])^2 + 2(X - E[X])(Y - E[Y]) + (Y - E[Y])^2]\\ & = E[(X - E[X])^2] + 2E[(X - E[X])(Y - E[Y])] + E[(Y - E[Y])^2] \\ & = Var(X) + 2Cov(X,Y) + Var(Y) \end{aligned}$$
 - 当 X 和 Y 独立时，它们的协方差 $Cov(X,Y) = 0$，因此： $Var(X + Y) = Var(X) + Var(Y)$
 - 扩展到多个变量：这个原理可以扩展到多个独立随机变量。对于独立的 $X1, X2, ..., Xn：Var(X1 + X2 + ... + Xn) = Var(X1) + Var(X2) + ... + Var(Xn)$
 
