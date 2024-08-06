@@ -43,6 +43,8 @@ Transformer模型主要由两个部分组成：编码器（Encoder）和解码�
 每个子层后都跟着一个残差连接（Residual Connection）和层归一化（Layer Normalization），同编码器。
 
 ## 二、Self-Attention机制的原理和计算过程
+![image/dot_product_attn.png](../image/dot_product_attn.png)
+
 Self-Attention机制是Transformer模型的核心，它通过为序列中的每个位置分配权重来捕捉全局依赖关系，允许模型在处理序列时考虑整个序列的上下文信息。
 
 ### 基本原理
@@ -150,5 +152,64 @@ $$ \begin{aligned} Var(X + Y) & = E[((X + Y) - E[X + Y])^2] \\
 & = E[(X - E[X])^2] + 2E[(X - E[X])(Y - E[Y])] + E[(Y - E[Y])^2] \\ 
 & = Var(X) + 2Cov(X,Y) + Var(Y) \end{aligned}$$
 - 当 X 和 Y 独立时，它们的协方差 $Cov(X,Y) = 0$，因此： $Var(X + Y) = Var(X) + Var(Y)$
-- 扩展到多个变量：这个原理可以扩展到多个独立随机变量。对于独立的 $X1, X2, ..., Xn：Var(X1 + X2 + ... + Xn) = Var(X1) + Var(X2) + ... + Var(Xn)$
+- 扩展到多个变量：这个原理可以扩展到多个独立随机变量。对于独立的 $X_1, X_2, ..., X_n：Var(X_1 + X_2 + ... + X_n) = Var(X_1) + Var(X_2) + ... + Var(X_n)$
 
+#### 6. 怎么理解输入值不合理导致的softmax 梯度消失/梯度爆炸问题？
+- TODO
+
+
+
+## 三、Multi-Head Attention的设计和作用
+![image/multi_head_attn.png](../image/multi_head_attn.png)
+
+multi-head attention 是self-attention 的扩展，也是Transformer模型的核心组件之一。
+### 基本构造
+- **Query (Q), Key (K), Value (V)**：Multi-Head Attention 将输入序列分别映射为三个向量序列：Query 向量 (Q)，Key 向量 (K)，和 Value 向量 (V)。这些向量用于计算注意力权重。
+- **多个注意力头**：不同于传统的单一注意力机制，Multi-Head Attention 将 Q，K，V 分别映射为 $h$ 个不同的子空间，每个子空间对应一个注意力头，每个注意力头都有各自的投影矩阵 $W_i^{Q}$、 $W_i^{K}$、 $W_i^{V}$，i 表示第 i 个注意力头。
+- **并行计算**：对每个头，计算注意力得分并得到对应的加权Value向量。
+- **连接与投影**：所有头的输出向量连接在一起，并通过一个线性变换（通常是一个投影矩阵）得到最终的输出
+
+
+### 作用
+- **捕捉不同的注意力模式**：多头机制允许模型在不同的子空间独立学习和捕捉不同的注意力模式。不同的头可以关注输入序列的不同部分，增强模型的表达能力。
+- **提高模型稳定性**：使用多个头进行并行计算，可以减少单头注意力可能带来的不稳定性，平滑注意力权重的分布，提高模型输出的稳定性和鲁棒性。
+- **增加模型的表示能力**：多头注意力机制通过多个线性变换和注意力计算，显著增加了模型的表示能力，使得模型能够更好的理解和生成复杂的输入输出关系。
+
+### 公式
+Multi-Head Attention 的计算公式可以表示为：
+
+$$\begin{aligned} \mathrm{MultiHead}(Q, K, V) & = \mathrm{Concat}(head_1, head_2, ..., head_h)W^O \\ \mathbf{where}\; head_i & = \mathrm{Attention}(QW_i^Q, KW_i^K, VW_i^V) \end{aligned}$$
+
+其中， $W_i^Q \in \mathbb{R}^{d_{model} \times d_k}$， $W_i^K \in \mathbb{R}^{d_{model} \times d_k}$， $W_i^V \in \mathbb{R}^{d_{model} \times d_v}$， $W^O \in \mathbb{R}^{hd_v \times d_{model}}$， $d_k = d_v = \frac{d_{model}}{h}$
+
+### 扩展说明
+为什么 $W^O \in \mathbb{R}^{hd_v \times d_{model}}$，详细推导如下：
+- 假设输入矩阵 $X \in \mathbb{R}^{n \times d_{model}}$
+- 生成 Q，K，V 矩阵（这里指的是输入到多头之前，将 X 映射为Q K V三个矩阵）
+  - 线性变换：$Q = XW^Q$， $K = XW^K$， $V = XW^V$
+  - 权重矩阵的维度： $W^Q \in \mathbb{R}^{d_{model} \times d_{model}}$， $W^K \in \mathbb{R}^{d_{model} \times d_{model}}$， $W^V \in \mathbb{R}^{d_{model} \times d_{model}}$
+  - 生成的 Q，K，V 矩阵维度： $Q, K \in \mathbb{R}^{n \times d_{model}}$， $V \in \mathbb{R}^{n \times d_{model}}$
+- 分头计算注意力
+  - 子空间映射：每个头将 Q，K，V 分别映射到自己的子空间。对于每个头，使用独立的线性变化： $Q_i = QW^Q_i$， $K_i = KW^K_i$， $V_i = VW^V_i$
+  - 头的维度：
+    - 每个头的 Q，K，V 维度都是 $\frac{d_{model}}{h}$（保证拼接后的总维度不变）。
+    - 每个头的 Q，K，V 变换矩阵： $W^Q_i \in \mathbb{R}^{d_{model} \times \frac{d_{model}}{h}}$， $W^K_i \in \mathbb{R}^{d_{model} \times \frac{d_{model}}{h}}$， $W^V_i \in \mathbb{R}^{d_{model} \times \frac{d_{model}}{h}}$
+  - 每个头的注意力计算
+    $$\mathrm{Attention_i}(Q_i, K_i, V_i) = \mathrm{softmax}\left(\frac{Q_iK_i^T}{\sqrt{\frac{d_{model}}{h}}}\right)V_i$$
+  - 每个头的输出维度 $n \times \frac{d_{model}}{h}$，因为每个头处理的是 $\frac{d_{model}}{h}$ 维度的Q，K，V。
+- 合并头的输出：将每个头的输出连接到一起，得到一个维度为 $n \times (h \cdot \frac{d_{model}}{h}) = n \times d_{model}$ 的矩阵。
+- 最终线性变换：首先明确我们最终要获得一个 $n \times d_{model}$ 维度的矩阵，因此需要一个维度为 $d_{model} \times d_{model}$ 的矩阵与上述合并头的输出矩阵相乘。而前面我们提到， $d_k$、 $d_v$ 的维度都是 $\frac{d_{model}}{h}$（按照头的个数等分），因此 $W^O \in \mathbb{R}^{hd_v \times d_{model}}$。
+
+## 四、Self-Attention在模型中的作用与优势
+1. 自适应的注意力适配
+    - **动态关注**：使模型能够在处理输入序列时自适应的关注输入序列的不同部分，而不是在训练时固定关注哪些部分，来适应不同的任务与要求。
+    - **上下文感知**：帮助模型更好的理解上下文关系，特别是在处理长序列时表现突出。
+2. 计算效率与并行化
+    - **计算效率**：self-attention 在处理序列数据时，可以并行的计算所有位置之间的关系，与传统的RNN依赖序列的顺序处理不同，这种并行的计算方式可以显著提高训练和推理效率。
+    - **减少复杂度**：与传统RNN相比，self-attention避免了递归计算，使得训练和推理更简单。
+3. 长程依赖建模
+    - **捕捉远距离关系**：由于self-attention 可以直接在输入序列中建立所有位置之间的关系，因此可以有效的捕捉到长距离的依赖关系，无论这个距离有多远。
+    - **全局信息**：每个位置的输出都依赖于整个输入序列，因此可以捕捉到全局信息。
+4. 简化模型结构
+    - **简化设计**：相比于传统RNN及LSTM，transfomer 通过堆叠多个自注意力层和前馈神经网络层，简化了模型设计。
+    - **灵活性和可扩展性**：模型结构更容易扩展和调整，例如，可以通过增加层数或调整模型参数来提高模型性能。
