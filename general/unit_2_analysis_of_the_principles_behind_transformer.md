@@ -135,7 +135,10 @@ $$\mathbf{q} \cdot \mathbf{k} = \Vert\mathbf{q}\Vert \Vert\mathbf{k}\Vert \cos \
 *补充知识*
 - 方差的计算公式： 
 
-$$ \begin{aligned} Var(X)  & =  E[(X - E[X])^2] \\ & = E[X^2 - 2XE[X] + E[X]^ 2]\\ & = E[X^2] - 2E[X]E[X] + E[X]^2 \\ & = E[X^2] - E[X]^2 \end{aligned}$$
+$$ \begin{aligned} Var(X)  & =  E[(X - E[X])^2] \\ 
+& = E[X^2 - 2XE[X] + E[X]^ 2]\\ 
+& = E[X^2] - 2E[X]E[X] + E[X]^2 \\ 
+& = E[X^2] - E[X]^2 \end{aligned}$$
 - 独立性的定义：两个随机变量 X 和 Y相互独立，意味着一个变量的行为不会影响另一个变量。
 - 方差的可加性：对于两个独立的随机变量 X 和 Y，我们有： $Var(X + Y) = Var(X) + Var(Y)$，证明如下： 
 
