@@ -77,6 +77,7 @@ Self-Attention机制的核心思想是：对于序列中的每个元素，计算
 
 #### 2. 为什么点积运算可以计算两个向量的相似度？
 点积（内积）运算在向量空间中尤其几何解释，可以用来衡量两个向量的相似程度。比如给定两个向量 $\mathbf{q}$(Query) 和 $\mathbf{k}$(Key)，它们的点积定义为：
+
 $$\mathbf{q} \cdot \mathbf{k} = \Vert\mathbf{q}\Vert \Vert\mathbf{k}\Vert \cos \theta$$
 其中 $\Vert\mathbf{q}\Vert$ 和 $\Vert\mathbf{k}\Vert$ 是向量的范数(长度)， $\theta$ 是两个向量的夹角。点积值反映了两个向量的相似程度：
 - **夹角小**（相似度高）：点积值大，表示两个向量在表示空间中较近，模型可以认为这两个位置之间的关系较强。
@@ -142,7 +143,11 @@ $$ \begin{aligned} Var(X)  & =  E[(X - E[X])^2] \\
 - 独立性的定义：两个随机变量 X 和 Y相互独立，意味着一个变量的行为不会影响另一个变量。
 - 方差的可加性：对于两个独立的随机变量 X 和 Y，我们有： $Var(X + Y) = Var(X) + Var(Y)$，证明如下： 
 
-$$ \begin{aligned} Var(X + Y) & = E[((X + Y) - E[X + Y])^2] \\ & = E[((X - E[X]) + (Y - E[Y]))^2] \\ & = E[(X - E[X])^2 + 2(X - E[X])(Y - E[Y]) + (Y - E[Y])^2]\\ & = E[(X - E[X])^2] + 2E[(X - E[X])(Y - E[Y])] + E[(Y - E[Y])^2] \\ & = Var(X) + 2Cov(X,Y) + Var(Y) \end{aligned}$$
+$$ \begin{aligned} Var(X + Y) & = E[((X + Y) - E[X + Y])^2] \\ 
+& = E[((X - E[X]) + (Y - E[Y]))^2] \\ 
+& = E[(X - E[X])^2 + 2(X - E[X])(Y - E[Y]) + (Y - E[Y])^2]\\ 
+& = E[(X - E[X])^2] + 2E[(X - E[X])(Y - E[Y])] + E[(Y - E[Y])^2] \\ 
+& = Var(X) + 2Cov(X,Y) + Var(Y) \end{aligned}$$
 - 当 X 和 Y 独立时，它们的协方差 $Cov(X,Y) = 0$，因此： $Var(X + Y) = Var(X) + Var(Y)$
 - 扩展到多个变量：这个原理可以扩展到多个独立随机变量。对于独立的 $X1, X2, ..., Xn：Var(X1 + X2 + ... + Xn) = Var(X1) + Var(X2) + ... + Var(Xn)$
 
