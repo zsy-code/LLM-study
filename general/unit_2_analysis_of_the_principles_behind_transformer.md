@@ -123,7 +123,7 @@ $$\mathbf{q} \cdot \mathbf{k} = \Vert\mathbf{q}\Vert \Vert\mathbf{k}\Vert \cos \
   $$Var(Q_i \cdot K_j) = Var(q_{i1} * k_{j1} + q_{i2} * k_{j2} + ... + q_{id_k} * k_{jd_k}) = Var(q_{i1} * k_{j1}) + Var(q_{i2} * k_{j2}) + ... + Var(q_{id_k} * k_{jd_k})$$
   - 对于每一项 $Var(q_{im} * k_{jm})$：
   $$Var(q_{im} * k_{jm}) = E[(q_{im} * k_{jm})^2] - (E[q_{im} * k_{jm}])^2 = E[q_{im}^2] * E[k_{jm}^2] - (E[q_{im}] * E[k_{jm}])^2 = 1 * 1 - 0^2 = 1$$
-  - 因此，$ Var(Q_i · K_j) = 1 + 1 + ... + 1 (d_k个) = d_k $
+  - 因此，$Var(Q_i · K_j) = 1 + 1 + ... + 1 (d_k个) = d_k$
 - 使用 $\sqrt{d_k}$ 缩放
   $$Var(\frac{Q_i · K_j}{\sqrt{d_k}}) = \frac{Var(Q_i · K_j)}{d_k} = \frac{d_k}{d_k} = 1$$
 
@@ -133,8 +133,8 @@ $$\mathbf{q} \cdot \mathbf{k} = \Vert\mathbf{q}\Vert \Vert\mathbf{k}\Vert \cos \
 - 方差的计算公式：
 $$\begin{aligned} Var(X)  & =  E[(X - E[X])^2] \\ & = E[X^2 - 2XE[X] + E[X]^ 2]\\ & = E[X^2] - 2E[X]E[X] + E[X]^2 \\ & = E[X^2] - E[X]^2 \end{aligned}$$
 - 独立性的定义：两个随机变量 X 和 Y相互独立，意味着一个变量的行为不会影响另一个变量。
-- 方差的可加性：对于两个独立的随机变量 X 和 Y，我们有：$Var(X + Y) = Var(X) + Var(Y)$，证明如下：
-$$\begin{aligned} Var(X + Y) & = E[((X + Y) - E[X + Y])^2] \\ & = E[((X - E[X]) + (Y - E[Y]))^2] \\ & = E[(X - E[X])^2 + 2(X - E[X])(Y - E[Y]) + (Y - E[Y])^2]\\ & = E[(X - E[X])^2] + 2E[(X - E[X])(Y - E[Y])] + E[(Y - E[Y])^2] \\ & = Var(X) + 2Cov(X,Y) + Var(Y) \end{aligned}$$
-- 当 X 和 Y 独立时，它们的协方差 $Cov(X,Y) = 0$，因此：$Var(X + Y) = Var(X) + Var(Y)$
+- 方差的可加性：对于两个独立的随机变量 X 和 Y，我们有： $Var(X + Y) = Var(X) + Var(Y)$，证明如下：
+ $$\begin{aligned} Var(X + Y) & = E[((X + Y) - E[X + Y])^2] \\ & = E[((X - E[X]) + (Y - E[Y]))^2] \\ & = E[(X - E[X])^2 + 2(X - E[X])(Y - E[Y]) + (Y - E[Y])^2]\\ & = E[(X - E[X])^2] + 2E[(X - E[X])(Y - E[Y])] + E[(Y - E[Y])^2] \\ & = Var(X) + 2Cov(X,Y) + Var(Y) \end{aligned}$$
+- 当 X 和 Y 独立时，它们的协方差 $Cov(X,Y) = 0$，因此： $Var(X + Y) = Var(X) + Var(Y)$
 - 扩展到多个变量：这个原理可以扩展到多个独立随机变量。对于独立的 $X1, X2, ..., Xn：Var(X1 + X2 + ... + Xn) = Var(X1) + Var(X2) + ... + Var(Xn)$
 
