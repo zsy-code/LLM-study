@@ -4,7 +4,7 @@ Transformer模型是一种用于自然语言处理（NLP）的深度学习模型
 
 ## 一、Transformer 模型的基本架构
 
-![image/transformer_model.png](../image/transformer_architecture    .png)
+![image/transformer_model.png](../image/transformer_architecture.png)
 
 Transformer模型主要由两个部分组成：编码器（Encoder）和解码器（Decoder）
 
