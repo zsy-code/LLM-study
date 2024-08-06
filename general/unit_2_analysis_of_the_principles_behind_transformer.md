@@ -55,16 +55,16 @@ Self-Attention机制的核心思想是：对于序列中的每个元素，计算
   - Value：序列中所有时间步的值向量（Value Vector），实际携带的信息内容
 - 计算步骤：
   - 生成Q、K、V矩阵
-    - 将输入序列 $X(n, d)$ 乘以三个权重矩阵 $W_Q(d, d_k)$、$W_K(d, d_k)$、$W_V(d, d_v)$，得到Q、K、V矩阵（ $Q = XW_Q$ , $K = XW_K$, $V = XW_V$）
+    - 将输入序列 $X(n, d)$ 乘以三个权重矩阵 $W_Q(d, d_k)$、 $W_K(d, d_k)$、 $W_V(d, d_v)$，得到Q、K、V矩阵（ $Q = XW_Q$ , $K = XW_K$, $V = XW_V$ ）
   - 计算注意力分数
-    - 使用点积来计算Q、K的相似度，得到注意力分数（$Attention Score = QK_T$）
+    - 使用点积来计算Q、K的相似度，得到注意力分数（ $Attention Score = QK_T$ ）
   - 尺度缩放
-    - 为了防止点积值过大，将得到的score除以一个缩放因子 K 维度的平方根（$Scaled Score = Attention Score/\sqrt{d_k}$）
+    - 为了防止点积值过大，将得到的score除以一个缩放因子 K 维度的平方根（ $Scaled Score = Attention Score/\sqrt{d_k}$ ）
   - Softmax 归一化
-    - 应用Softmax 函数使得到的分数转化为概率分布（$Attention weights = softmax(ScaledScore)$）
+    - 应用Softmax 函数使得到的分数转化为概率分布（ $Attention weights = softmax(ScaledScore)$ ）
   - 加权求和
-    - 用得到的注意力权重对V向量进行加权求和（$Output = Attention weights \cdot V$）
-- 整个注意力的计算过程可以用一个数学公式表示：$Attention(Q, K, V) = softmax(\frac{QK^T}{\sqrt{d_k}}) \cdot V$
+    - 用得到的注意力权重对V向量进行加权求和（ $Output = Attention weights \cdot V$ ）
+- 整个注意力的计算过程可以用一个数学公式表示： $Attention(Q, K, V) = softmax(\frac{QK^T}{\sqrt{d_k}}) \cdot V$
 
 ### 问题解答
 
@@ -84,7 +84,7 @@ $$\mathbf{q} \cdot \mathbf{k} = \Vert\mathbf{q}\Vert \Vert\mathbf{k}\Vert \cos \
 - **夹角大**（相似度低）：点积值小，表示两个向量在表示空间中较远，模型可以认为这两个位置之间的关系较弱。
 
 与此同时，范数在点积中也具有重要作用：
-- 范数的影响：点积值还受到向量范数的影响。较大的范数会放大点积值，从而影响注意力分数的计算。如果两个向量的范数很大，即使它们的夹角很大($\cos \theta$ 很小)，点积值也可能非常大。反之，如果范数很小，即使夹角小($\cos \theta$ 很大)，点积值也可能不显著。
+- 范数的影响：点积值还受到向量范数的影响。较大的范数会放大点积值，从而影响注意力分数的计算。如果两个向量的范数很大，即使它们的夹角很大( $\cos \theta$ 很小)，点积值也可能非常大。反之，如果范数很小，即使夹角小( $\cos \theta$ 很大)，点积值也可能不显著。
 - 规范化影响：为了避免由于范数差异导致的点积值过大或过小，通常在计算注意力分数时会进行规范化。例如，使用缩放因子来减小范数带来的影响。这是Self-Attention机制中缩放点积注意力的原因，目的是使得点积值的范围保持在一个合理的范围内，从而保证模型的训练稳定性。
 
 #### 3. 为什么需要除以 $\sqrt{d_k}$ 进行缩放？
@@ -113,7 +113,7 @@ $$\mathbf{q} \cdot \mathbf{k} = \Vert\mathbf{q}\Vert \Vert\mathbf{k}\Vert \cos \
 *计算说明*
 - 假设有矩阵 $Q(n, d_k)$ 和 $K(n, d_k)$，其中 $n$ 是序列长度， $d_k$ 是每个向量的维度数。
 - 计算 $QK^T$，得到的结果是一个 $n*n$ 的矩阵
-  - 结果矩阵中每个元素都是 $Q$ 的一行与 $K$ 的一行（$K^T$ 的一列）的点积。
+  - 结果矩阵中每个元素都是 $Q$ 的一行与 $K$ 的一行（ $K^T$ 的一列）的点积。
   - 对于结果矩阵中的元素 $(i, j)$， $(QK^T)_{ij} = Q_i \cdot K_j$
 - 单个元素分析
   - $Q_i$ 是 $Q$ 矩阵的第 $i$ 行，是一个长度为 $d_k$ 的向量， $K_j$ 是 $K$ 矩阵的第 $j$ 行，也是一个长度为 $d_k$ 的向量。
