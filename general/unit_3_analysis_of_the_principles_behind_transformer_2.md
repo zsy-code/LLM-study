@@ -1,11 +1,11 @@
 # UNIT 3: Transformer模型原理剖析（2）
 
-## 一、Position Encoding的概念及实现方法
+## 一、Positional Encoding的概念及实现方法
 ### 概念
-Position Encoding（位置编码）是NLP中的一种技术，用于将序列中各元素的位置信息编码嵌入到向量中。它在Transformer模型中十分重要，因为Transformer模型没有像RNN那样的顺序处理机制，因此需要额外显式的引入位置信息。
+Positional Encoding（位置编码）是NLP中的一种技术，用于将序列中各元素的位置信息编码嵌入到向量中。它在Transformer模型中十分重要，因为Transformer模型没有像RNN那样的顺序处理机制，因此需要额外显式的引入位置信息。
 
 ### 实现方法
-实际上，Position Encoding的种类有很多，按照位置可分为：绝对位置编码（Absolute Position Encoding）、相对位置编码（Relative Position Encoding）和混合位置编码（Mixed Position Encoding），按照固定/可变可分为：可学习位置编码（Learned Position Encoding）和固定位置编码（Fixed Position Embedding）。在这里不过多赘述，仅阐述《Attention is All You Need》论文中使用的位置编码方法。[TODO]后续会单独开一章来详细讲解各种位置编码的原理与实现方式。
+实际上，Positional Encoding的种类有很多，按照位置可分为：绝对位置编码（Absolute Positional Encoding）、相对位置编码（Relative Positional Encoding）和混合位置编码（Mixed Positional Encoding），按照固定/可变可分为：可学习位置编码（Learned Positional Encoding）和固定位置编码（Fixed Positional Embedding）。在这里不过多赘述，仅阐述《Attention is All You Need》论文中使用的位置编码方法。[TODO]后续会单独开一章来详细讲解各种位置编码的原理与实现方式。
 
 在论文《Attention is All You Need》中，采用的就是一种基于正弦和余弦函数的绝对位置编码方法，这种编码方法是不需要额外进行学习的，位置 $pos$ 的编码由以下公式生成：
 
@@ -40,7 +40,7 @@ $$ \begin{aligned} PE_{(pos + k, 2i)} & = PE_{(pos, 2i)}\cos(\omega * k) + PE_{(
 
   $PE_{pos+k}$ 的每个分量都可以表示为 $PE_{pos}$ 的两个相邻分量的线性组合，其中系数为 $\cos(\omega * k)$ 和 $\sin(\omega * k)$，仅依赖于 $i$ 和 $k$，与 $pos$ 无关。
 
-代码实现请见 [PostionEncoder 类](../code/transformer/layers.py)
+代码实现请见 [PositionalEncoding 类](../code/transformer/layers.py)
 
 ## 二、Transformer 中的Feed Forward Network
 ### 概念

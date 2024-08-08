@@ -5,7 +5,7 @@ from transformer.attns import MultiHeadAttention
 import numpy as np
 
 
-class PositionEncoder(nn.Module):
+class PositionalEncoding(nn.Module):
     """ The Position Encoder in Transformer
     - 1. Embedding Layer
     - 2. Positional Encoding
