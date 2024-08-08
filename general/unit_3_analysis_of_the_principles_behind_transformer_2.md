@@ -29,7 +29,7 @@ $$ \begin{aligned} PE_{(pos, 2i)} & = \sin \left(\frac{pos}{10000^{2i/d_{model}}
 - 利用三角函数加法公式： $\sin(A+B) = \sin(A)\cos(B) + \cos(A)\sin(B)$ ； $\cos(A+B) = \cos(A)\cos(B) - \sin(A)\sin(B)$，得到
   
   $$ \begin{aligned} \sin(\omega * (pos + k)) & = \sin(\omega * pos)\cos(\omega * k) + \cos(\omega * pos)\sin(\omega * k) \\ 
-  \cos(\omega * (pos + k)) & = \cos(\omega * pos)\cos(\omega * k) - \sin(\omega * pos)\sin(\omega * k) \end{aligned}$$
+  \cos(\omega * (pos + k)) & = \cos(\omega * pos)\cos(\omega * k) - \sin(\omega * pos)\sin(\omega * k) \end{aligned} $$
 
 - 重写可得：
   
