@@ -17,8 +17,8 @@ $$ \begin{aligned} PE_{(pos, 2i)} & = \sin \left(\frac{pos}{10000^{2i/d_{model}}
 
 - 为了简化计算，首先定义 $\omega = \frac{1}{10000^{2i/d_{model}}}$， 即
 
-  $$\begin{aligned} PE_{(pos, 2i)} & = \sin (\omega * pos) \\ 
-  PE_{(pos, 2i + 1)} & = \cos (\omega * pos) \end{aligned}$$
+  $$\begin{aligned} PE_{(pos, 2i)} & = \sin (\omega * pos) \\ PE_{(pos, 2i + 1)} 
+  & = \cos (\omega * pos) \end{aligned}$$
 
 - 那么
   
