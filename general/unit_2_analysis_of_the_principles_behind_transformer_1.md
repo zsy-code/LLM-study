@@ -1,4 +1,4 @@
-# UNIT 2: Transformer模型原理剖析
+# UNIT 2: Transformer模型原理剖析（1）
 
 Transformer模型是一种用于自然语言处理（NLP）的深度学习模型，主要用于处理序列到序列的任务，如机器翻译、文本生成等。Transformer模型由Vaswani等人在2017年的论文《Attention is All You Need》中首次提出。其核心创新是引入了自注意力机制（Self-Attention），显著提高了并行计算能力和模型性能。
 
