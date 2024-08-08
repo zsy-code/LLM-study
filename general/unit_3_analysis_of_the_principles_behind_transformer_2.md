@@ -9,7 +9,8 @@ Position Encoding（位置编码）是NLP中的一种技术，用于将序列中
 
 在论文《Attention is All You Need》中，采用的就是一种基于正弦和余弦函数的绝对位置编码方法，这种编码方法是不需要额外进行学习的，位置 $pos$ 的编码由以下公式生成：
 
-$$ \begin{aligned} PE_{(pos, 2i)} & = \sin \left(\frac{pos}{10000^{2i/d_{model}}}\right) \\ PE_{(pos, 2i+1)} & = \cos \left(\frac{pos}{10000^{2i/d_{model}}}\right) \end{aligned} $$
+$$ \begin{aligned} PE_{(pos, 2i)} & = \sin \left(\frac{pos}{10000^{2i/d_{model}}}\right) \\
+ PE_{(pos, 2i+1)} & = \cos \left(\frac{pos}{10000^{2i/d_{model}}}\right) \end{aligned} $$
 
 其中，pos 代表位置，i 代表维度，即位置编码中的每个维度都对应一个正弦曲线。选择该方法是因为它可以让模型更容易关注到相对位置的信息，以为对于任何位置偏移k， $PE_{pos+k}$都可以被表示成 $PE_{pos}$ 的线性函数。
 
@@ -17,20 +18,20 @@ $$ \begin{aligned} PE_{(pos, 2i)} & = \sin \left(\frac{pos}{10000^{2i/d_{model}}
 
 - 为了简化计算，首先定义 $\omega = \frac{1}{10000^{2i/d_{model}}}$， 即
 
-  $$\begin{aligned} PE_{(pos, 2i)} & = \sin (\omega * pos) \\ PE_{(pos, 2i + 1)} 
+  $$ \begin{aligned} PE_{(pos, 2i)} & = \sin (\omega * pos) \\ PE_{(pos, 2i + 1)} 
   & = \cos (\omega * pos) \end{aligned}$$
 
 - 那么
   
-  $$\begin{aligned} PE_{(pos + k, 2i)} & = \sin (\omega * (pos + k)) \\ PE_{(pos + k, 2i + 1)} & = \cos (\omega * (pos +k))\end{aligned}$$
+  $$ \begin{aligned} PE_{(pos + k, 2i)} & = \sin (\omega * (pos + k)) \\ PE_{(pos + k, 2i + 1)} & = \cos (\omega * (pos +k))\end{aligned}$$
 
 - 利用三角函数加法公式： $\sin(A+B) = \sin(A)\cos(B) + \cos(A)\sin(B)$ ； $\cos(A+B) = \cos(A)\cos(B) - \sin(A)\sin(B)$，得到
   
-  $$\begin{aligned} \sin(\omega * (pos + k)) & = \sin(\omega * pos)\cos(\omega * k) + \cos(\omega * pos)\sin(\omega * k) \\ \cos(\omega * (pos + k)) & = \cos(\omega * pos)\cos(\omega * k) - \sin(\omega * pos)\sin(\omega * k) \end{aligned}$$
+  $$ \begin{aligned} \sin(\omega * (pos + k)) & = \sin(\omega * pos)\cos(\omega * k) + \cos(\omega * pos)\sin(\omega * k) \\ \cos(\omega * (pos + k)) & = \cos(\omega * pos)\cos(\omega * k) - \sin(\omega * pos)\sin(\omega * k) \end{aligned}$$
 
 - 重写可得：
   
-  $$\begin{aligned} PE_{(pos + k, 2i)} & = PE_{(pos, 2i)}\cos(\omega * k) + PE_{(pos, 2i + 1)}\sin(\omega * k) \\ PE_{(pos + k, 2i + 1)} & = PE_{(pos, 2i + 1)}\cos(\omega * k) - PE_{(pos, 2i)}\sin(\omega * k)\end{aligned}$$
+  $$ \begin{aligned} PE_{(pos + k, 2i)} & = PE_{(pos, 2i)}\cos(\omega * k) + PE_{(pos, 2i + 1)}\sin(\omega * k) \\ PE_{(pos + k, 2i + 1)} & = PE_{(pos, 2i + 1)}\cos(\omega * k) - PE_{(pos, 2i)}\sin(\omega * k)\end{aligned}$$
 
 - 观察结果：
 
