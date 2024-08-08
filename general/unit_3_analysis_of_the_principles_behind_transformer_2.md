@@ -16,8 +16,10 @@ $$ \begin{aligned} PE_{(pos, 2i)} & = \sin \left(\frac{pos}{10000^{2i/d_{model}}
 计算方式如下：
 
 - 为了简化计算，首先定义 $\omega = \frac{1}{10000^{2i/d_{model}}}$， 即
+
   
   $$\begin{aligned} PE_{(pos, 2i)} & = \sin (\omega * pos) \\ PE_{(pos, 2i + 1)} & = \cos (\omega * pos) \end{aligned}$$
+
 
 - 那么
   
@@ -73,6 +75,7 @@ Layer Normalization（LN）是一种用于深度神经网络的正则化技术�
    设 $x$ 为一个样本的激活值向量，包含 $N$ 个神经元的激活值。均值 $\mu$ 和方差 $\sigma^2$ 的计算公式如下：
 
    $$\mu = \frac{1}{N} \sum_{i=1}^{N} x_i$$
+
    $$\sigma^2 = \frac{1}{N} \sum_{i=1}^{N}(x_i - \mu)^2$$
 
 2. **标准化：** 将每个激活值减去均值，在除以标准差（方差的平方根），得到标准化的激活值
@@ -85,7 +88,7 @@ Layer Normalization（LN）是一种用于深度神经网络的正则化技术�
    
    $$\hat{y}_i = \gamma \hat{x}_i + \beta$$
 
-   这里，$\gamma$ 和 $\beta$ 都是可学习的参数，维度与 $x$ 相同，允许模型在训练过程中学习适合的数据分布。
+   这里， $\gamma$ 和 $\beta$ 都是可学习的参数，维度与 $x$ 相同，允许模型在训练过程中学习适合的数据分布。
 
 ### 代码实现
 ```python
