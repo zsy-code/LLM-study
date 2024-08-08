@@ -14,18 +14,27 @@ class PositionEncoder(nn.Module):
         super().__init__()
         # Embedding Layer
         self.emb = nn.Embedding(max_seq_len, d_model)
-        
+
 
 
 class PositionwiseFeedForward(nn.Module):
     """ The Position Wise Feed Forward Layer in Transformer
-    - 1. Linear Layer
-    - 2. Dropout
-    - 3. ReLU
     """
-    def __init__(self, d_model, d_ff, drop_out=0.1):
+    def __init__(self, d_in, d_hidden, drop_out=0.1):
         super().__init__()
-        pass
+        self.l_1 = nn.Linear(d_in, d_hidden)
+        self.l_2 = nn.Linear(d_hidden, d_in)
+        self.layer_norm = nn.LayerNorm(d_in, eps=1e-6)
+        self.dropout = nn.Dropout(drop_out)
+    
+    def forward(self, x):
+        residual = x
+
+        x = self.l_2(F.relu(self.l_1(x)))
+        x = self.dropout(x)
+        x += residual
+        x = self.layer_norm(x)
+        return x
 
 
 class EncodeLayer(nn.Module):

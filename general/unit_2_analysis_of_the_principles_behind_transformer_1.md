@@ -10,10 +10,15 @@ Transformer模型主要由两个部分组成：编码器（Encoder）和解码�
 
 在第一个编码器前，通常会有一个输入嵌入层（Input Embedding）和一个位置编码层（Position Embedding）
 
-在解码器后，通常会有一个输出层（Output Layer）
+在第一个解码器前，通常会有一个输出嵌入层（Output Embedding）和位置编码层（Position Embedding）
+
+在解码器后，通常会有一个输出层（Output Layer），包含一个线性变换（Dense）和softmax 输出，用于预测下一个词的概率分布。
 
 ### 输入嵌入层（Input Embedding）
 - 将输入序列通过嵌入层映射到高维空间
+
+### 输出嵌入层（Output Embedding）
+- 将目标序列通过嵌入层映射到高维空间
 
 ### 位置编码层（Position Embedding）
 - 由于Transformer没有内置的顺序处理能力，位置编码用于注入序列的位置信息
