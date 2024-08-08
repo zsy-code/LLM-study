@@ -34,7 +34,7 @@ $$ \begin{aligned} \sin(\omega * (pos + k)) & = \sin(\omega * pos)\cos(\omega * 
 - 重写可得：
   
 $$ \begin{aligned} PE_{(pos + k, 2i)} & = PE_{(pos, 2i)}\cos(\omega * k) + PE_{(pos, 2i + 1)}\sin(\omega * k) \\ 
-  PE_{(pos + k, 2i + 1)} & = PE_{(pos, 2i + 1)}\cos(\omega * k) - PE_{(pos, 2i)}\sin(\omega * k)\end{aligned}$$
+  PE_{(pos + k, 2i + 1)} & = PE_{(pos, 2i + 1)}\cos(\omega * k) - PE_{(pos, 2i)}\sin(\omega * k)\end{aligned} $$
 
 - 观察结果：
 
