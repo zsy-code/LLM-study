@@ -42,6 +42,48 @@ $$ \begin{aligned} PE_{(pos + k, 2i)} & = PE_{(pos, 2i)}\cos(\omega * k) + PE_{(
 
 代码实现请见 [PositionalEncoding 类](../code/transformer/layers.py)
 
+### 附加说明
+在代码编写中，会使用 $e^{-\frac{2i}{d_{model}} \ln (10000)}$ 代替 $\frac{1}{10000^{2i/d_{model}}}$，理由如下：
+1. 替换推导
+   - **原始表达式：**
+
+      $$\frac{1}{10000^{2i/d_{model}}}$$
+
+      这里的 $10000^{2i/d_{model}}$ 是一个指数表达式，其中10000是底数，$2i/d_{model}$ 是指数。
+   
+   - 对数转换
+      
+      根据对数的性质 $\ln(a^b) = b\ln(a)$，可以将上面的指数表达式转化为对数表达式
+
+      $$ \ln(10000^{2i/d_{model}}) = \frac{2i}{d_{model}} * \ln(10000) $$
+   
+   - 指数转换
+     
+     根据 $e^{\ln(x)} = x$，将上面的对数表达式转换为指数表达式
+
+     $$ 10000^{2i/d_{model}} = e^{\frac{2i}{d_{model}}\ln(10000)} $$
+   
+   - 倒数转换
+     
+     由于要计算的是 $\frac{1}{10000^{2i/d_{model}}}$，可以取倒数
+
+     $$ \frac{1}{e^{\frac{2i}{d_{model}}\ln(10000)}} = e^{-\frac{2i}{d_{model}} \ln (10000)} $$
+   
+   - 代码实现
+
+      ```python
+      div_term = torch.exp(torch.arange(0, d_model, 2).float() * (-math.log(10000.0) / d_model))
+      ```
+
+2. 计算效率
+   
+   在pytorch 中，使用 `torch.exp` 和 `math.log` 进行计算通常会比直接计算幂次 `10000 ** (2i/d_model)` 效率高。因为 `torch.exp` 和 `math.log` 是高度优化后的数学函数，它们在底层使用了高效的数值计算库（如 Intel MKL 或 cuBLAS），并且能够充分利用硬件加速（如 CPU 的 SIMD 指令或 GPU 的并行计算能力）
+
+   - **数值稳定性：** 使用 `torch.exp` 和 `math.log` 可以避免直接计算大数幂次时可能出现的数值不稳定问题。例如，当底数和指数都很大时，直接计算幂 次可能导致数值溢出或精度损失。
+   - **计算优化：** `torch.exp` 和 `math.log` 是 PyTorch 中的内置函数，它们经过了高度优化，能够充分利用硬件加速。相比之下，直接计算幂次可能需要更多的计算资源和时间。
+   - **并行计算：** 在 GPU 上，`torch.exp` 和 `math.log` 可以利用 GPU 的并行计算能力，而直接计算幂次可能无法充分利用这种并行性。
+   - **内存访问：** 使用 `torch.exp` 和 `math.log` 可以减少内存访问次数，因为这些函数通常在底层进行了优化，能够更高效地处理数据。
+
 ## 二、Transformer 中的Feed Forward Network
 ### 概念
 前馈神经网络（Feed Forward Network，简称FFN）是Transformer架构中的一个关键组件，位于每个编码器和解码器的自注意力子层之后。它的主要作用是增强模型的非线性表达能力，并允许模型处理更复杂的特征交互。
