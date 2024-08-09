@@ -57,11 +57,11 @@ $$ \begin{aligned} PE_{(pos + k, 2i)} & = PE_{(pos, 2i)}\cos(\omega * k) + PE_{(
    
    - **指数转换：** 根据 $e^{\ln(x)} = x$，将上面的对数表达式转换为指数表达式
 
-     $$ 10000^{2i/d_{model}} = e^{\frac{2i}{d_{model}}\ln(10000)} $$
+     $$10000^{2i/d_{model}} = e^{\frac{2i}{d_{model}}\ln(10000)}$$
    
    - **倒数转换：** 由于要计算的是 $\frac{1}{10000^{2i/d_{model}}}$，可以取倒数
 
-     $$ \frac{1}{e^{\frac{2i}{d_{model}}\ln(10000)}} = e^{-\frac{2i}{d_{model}} \ln (10000)} $$
+     $$\frac{1}{e^{\frac{2i}{d_{model}}\ln(10000)}} = e^{-\frac{2i}{d_{model}} \ln (10000)}$$
    
    - **代码实现：**
 
