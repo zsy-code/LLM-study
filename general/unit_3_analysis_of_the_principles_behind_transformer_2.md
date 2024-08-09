@@ -53,7 +53,7 @@ $$ \begin{aligned} PE_{(pos + k, 2i)} & = PE_{(pos, 2i)}\cos(\omega * k) + PE_{(
    
    - **对数转换：** 根据对数的性质 $\ln(a^b) = b\ln(a)$，可以将上面的指数表达式转化为对数表达式
 
-      $$ \ln(10000^{2i/d_{model}}) = \frac{2i}{d_{model}} * \ln(10000) $$
+      $$\ln(10000^{2i/d_{model}}) = \frac{2i}{d_{model}} * \ln(10000)$$
    
    - **指数转换：** 根据 $e^{\ln(x)} = x$，将上面的对数表达式转换为指数表达式
 
